@@ -7,7 +7,7 @@ A template with webpack 3 + vuejs 2 setup for projects startup.
 可以通过 [chare](https://github.com/dwqs/chare) 或者 [vue-cli](https://github.com/vuejs/vue-cli) 来安装：
 
 ```
-chare init Followme-Frontend/vue-startup your-project-name
+chare init fmfe/vue-startup your-project-name
 ```
 
 ## 字段说明
