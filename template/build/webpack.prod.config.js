@@ -74,8 +74,7 @@ prodConfig.plugins = (prodConfig.plugins || []).concat([
     }),
 
     new webpack.optimize.CommonsChunkPlugin({
-        name: "vendor",
-        filename: "vendor.js"
+        name: "vendor"
     }),
 
     // gzip
