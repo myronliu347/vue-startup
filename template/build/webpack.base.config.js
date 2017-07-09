@@ -8,6 +8,16 @@ let HappyPack = require('happypack');   //loader 多进程处理
 
 let getHappyPackConfig = require('./happypack');
 
+let config = require('../config');
+
+const env = process.env.NODE_ENV || 'development';
+const prefix = env === 'development' ?
+                config.prefix.development :
+                env === 'staging' ? config.prefix.staging :
+                env === 'preview' ? config.prefix.preview : config.prefix.production;
+
+console.log('---------env------:', env, '------prefix-------:', prefix);
+
 module.exports = {
     context: path.resolve(__dirname, "../src"),
     module: {
@@ -78,6 +88,10 @@ module.exports = {
             "window.jQuery": "jquery"
         }),
         {{/jquery}}
+
+        new webpack.DefinePlugin({
+            'window.PREFIX': JSON.stringify(prefix)
+        }),
 
         //copy assets
         new CopyWebpackPlugin([
