@@ -9,7 +9,7 @@ module.exports =  {
         contentBase: path.resolve(__dirname, '../{{path}}'),
         port: {{port}},
         env: {
-            NODE_ENV: "'development'"
+            NODE_ENV: 'development'
         }
     },
     build:{
@@ -17,7 +17,7 @@ module.exports =  {
         assetsPublicPath: '{{publicPath}}',
         contentBase: path.resolve(__dirname, '../{{path}}'),
         env: {
-            NODE_ENV: "'production'"
+            NODE_ENV: 'production'
         }
     },
     prefix: {
