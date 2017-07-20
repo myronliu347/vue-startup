@@ -19,11 +19,5 @@ module.exports =  {
         env: {
             NODE_ENV: 'production'
         }
-    },
-    prefix: {
-        development: '',
-        staging: '',
-        preview: '',
-        production: ''
     }
 }

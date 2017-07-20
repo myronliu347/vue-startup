@@ -5,6 +5,7 @@ let webpack = require('webpack');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 let CopyWebpackPlugin = require('copy-webpack-plugin');
 let HappyPack = require('happypack'); 
+let MxWebpackContentReplacePlugin = require('mx-webpack-content-replace-plugin');
 
 let getHappyPackConfig = require('./happypack');
 
@@ -17,6 +18,44 @@ const prefix = env === 'development' ?
                 env === 'preview' ? config.prefix.preview : config.prefix.production;
 
 console.log('---------env------:', env, '------prefix-------:', prefix);
+
+//针对 beta 环境的配置
+let cdn = '';
+let api = '';
+let base = '';
+
+switch(env){
+    case 'development':
+        cdn = 'http://cdn.followme.com/cdn';
+        api = 'http://beta.api.followme.com/api/v1';
+        base = 'http://www.followme.com';
+        break;
+    case 'staging':
+        cdn = 'http://cdn.followme.com/cdn';
+        api = 'http://ismemories.cn/api/v1';
+        base = 'http://www.followme.com';
+        break;
+    case 'preview':
+        cdn = 'http://cdn.followme.com/cdn';
+        api = 'http://frontend.followme.com/api/v1';
+        base = 'http://www.followme.com';
+        break;
+    case 'production':
+        cdn = 'http://cdn.followme.com/cdn';
+        api = 'http://www.followme.com/api/v1';
+        base = 'http://www.followme.com';
+        break;
+    case 'beta':
+        cdn = 'http://beta.www.followme.com/cdn';
+        api = 'http://beta.www.followme.com/api/v1';
+        base = 'http://beta.www.followme.com';
+        break;
+    case 'test':
+        cdn = 'http://pre.followme.com/cdn';
+        api = 'http://pre.followme.com/api/v1';
+        base = 'http://pre.followme.com';
+        break;
+}
 
 module.exports = {
     context: path.resolve(__dirname, "../src"),
@@ -90,7 +129,9 @@ module.exports = {
         {{/jquery}}
 
         new webpack.DefinePlugin({
-            'window.PREFIX': JSON.stringify(prefix)
+            CDN: JSON.stringify(cdn),
+            API: JSON.stringify(api),
+            BASE: JSON.stringify(base)
         }),
 
         //copy assets
@@ -126,6 +167,12 @@ module.exports = {
                 collapseWhitespace: true,
                 removeAttributeQuotes: false
           }
+        }),
+
+        new MxWebpackContentReplacePlugin({
+            src: /\/\/cdn\.followme\.com\/cdn/g,
+            dest: cdn,
+            exts: ['html', 'js', 'json', 'css']
         })
     ]
 };
