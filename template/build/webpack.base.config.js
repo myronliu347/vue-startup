@@ -13,10 +13,13 @@ let config = require('../config');
 
 const env = process.env.NODE_ENV || 'development';
 
-console.log('---------env------:', env);
-
 // 全局变量
 let {cdn, api, base} = config[env];
+
+console.log('\n---------env------:\n', env);
+console.log('\n---------cdn------:\n', cdn);
+console.log('\n---------base------:\n', base);
+console.log('\n---------api------:\n', api);
 
 module.exports = {
     context: path.resolve(__dirname, "../src"),
