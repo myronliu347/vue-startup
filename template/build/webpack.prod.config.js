@@ -40,10 +40,6 @@ prodConfig.plugins = (prodConfig.plugins || []).concat([
         dry: false
     }),
 
-    new webpack.DefinePlugin({
-        'process.env': JSON.stringify(config.build.env)
-    }),
-
     new ExtractTextPlugin({
         filename: "[name].[contenthash:8].css"
     }),

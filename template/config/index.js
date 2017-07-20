@@ -7,17 +7,41 @@ module.exports =  {
         assetsRoot: path.resolve(__dirname, '../{{path}}'),
         assetsPublicPath: '{{publicPath}}',
         contentBase: path.resolve(__dirname, '../{{path}}'),
-        port: {{port}},
-        env: {
-            NODE_ENV: 'development'
-        }
+        port: {{port}}
     },
     build:{
         assetsRoot: path.resolve(__dirname, '../{{path}}'),
         assetsPublicPath: '{{publicPath}}',
-        contentBase: path.resolve(__dirname, '../{{path}}'),
-        env: {
-            NODE_ENV: 'production'
-        }
+        contentBase: path.resolve(__dirname, '../{{path}}')
+    },
+    development: {
+        cdn: 'http://cdn.followme.com/cdn',
+        api: 'http://beta.api.followme.com/api/v1',
+        base: 'http://www.followme.com'
+    },
+    staging: {
+        cdn: 'http://cdn.followme.com/cdn',
+        api: 'http://ismemories.cn/api/v1',
+        base: 'http://www.followme.com'
+    },
+    preview: {
+        cdn: 'http://cdn.followme.com/cdn',
+        api: 'http://frontend.followme.com/api/v1',
+        base: 'http://www.followme.com'
+    },
+    beta: {
+        cdn: 'http://beta.www.followme.com/cdn',
+        api: 'http://beta.www.followme.com/api/v1',
+        base: 'http://beta.www.followme.com'
+    },
+    production: {
+        cdn: 'http://cdn.followme.com/cdn',
+        api: 'http://www.followme.com/api/v1',
+        base: 'http://www.followme.com'
+    },
+    test: {
+        cdn: 'http://pre.followme.com/cdn',
+        api: 'http://pre.followme.com/api/v1',
+        base: 'http://pre.followme.com'
     }
 }

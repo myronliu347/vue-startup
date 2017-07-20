@@ -12,50 +12,11 @@ let getHappyPackConfig = require('./happypack');
 let config = require('../config');
 
 const env = process.env.NODE_ENV || 'development';
-const prefix = env === 'development' ?
-                config.prefix.development :
-                env === 'staging' ? config.prefix.staging :
-                env === 'preview' ? config.prefix.preview : config.prefix.production;
 
-console.log('---------env------:', env, '------prefix-------:', prefix);
+console.log('---------env------:', env);
 
-//针对 beta 环境的配置
-let cdn = '';
-let api = '';
-let base = '';
-
-switch(env){
-    case 'development':
-        cdn = 'http://cdn.followme.com/cdn';
-        api = 'http://beta.api.followme.com/api/v1';
-        base = 'http://www.followme.com';
-        break;
-    case 'staging':
-        cdn = 'http://cdn.followme.com/cdn';
-        api = 'http://ismemories.cn/api/v1';
-        base = 'http://www.followme.com';
-        break;
-    case 'preview':
-        cdn = 'http://cdn.followme.com/cdn';
-        api = 'http://frontend.followme.com/api/v1';
-        base = 'http://www.followme.com';
-        break;
-    case 'production':
-        cdn = 'http://cdn.followme.com/cdn';
-        api = 'http://www.followme.com/api/v1';
-        base = 'http://www.followme.com';
-        break;
-    case 'beta':
-        cdn = 'http://beta.www.followme.com/cdn';
-        api = 'http://beta.www.followme.com/api/v1';
-        base = 'http://beta.www.followme.com';
-        break;
-    case 'test':
-        cdn = 'http://pre.followme.com/cdn';
-        api = 'http://pre.followme.com/api/v1';
-        base = 'http://pre.followme.com';
-        break;
-}
+// 全局变量
+let {cdn, api, base} = config[env];
 
 module.exports = {
     context: path.resolve(__dirname, "../src"),
@@ -129,6 +90,7 @@ module.exports = {
         {{/jquery}}
 
         new webpack.DefinePlugin({
+            ENV: JSON.stringify(env),
             CDN: JSON.stringify(cdn),
             API: JSON.stringify(api),
             BASE: JSON.stringify(base)
@@ -161,7 +123,7 @@ module.exports = {
           filename: 'index.html',
           template: 'index.html',
           inject: true,
-          env: process.env.NODE_ENV,
+          env: env,
           minify: {
                 removeComments: true,
                 collapseWhitespace: true,
