@@ -128,7 +128,7 @@ prodConfig.plugins = (prodConfig.plugins || []).concat([
 module.exports = Object.assign({},prodConfig,{
     entry: {
         app: path.resolve(__dirname, '../src/page/index.js'),
-        vendor: ['vue', 'vuex', 'vue-router', 'vuex-router-sync']
+        vendor: ['vue', 'vuex', 'vue-router', 'vuex-router-sync', 'babel-polyfill']
     },
     output: {
         filename: "[name].[chunkhash:8].js",
