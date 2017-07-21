@@ -19,7 +19,7 @@ let {cdn, api, base} = config[env];
 console.log('\n---------env------:\n', env);
 console.log('\n---------cdn------:\n', cdn);
 console.log('\n---------base------:\n', base);
-console.log('\n---------api------:\n', api);
+console.log('\n---------api------:\n\n', api);
 
 module.exports = {
     context: path.resolve(__dirname, "../src"),
