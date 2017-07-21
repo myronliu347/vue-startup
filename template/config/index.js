@@ -16,7 +16,8 @@ module.exports =  {
     },
     development: {
         cdn: 'http://cdn.followme.com/cdn',
-        api: 'http://beta.api.followme.com/api/v1',
+        api: 'http://ismemories.cn/api/v1',
+        // api: 'http://beta.api.followme.com/api/v1',
         base: 'http://www.followme.com'
     },
     staging: {

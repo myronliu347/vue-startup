@@ -43,11 +43,9 @@ module.exports = {
             "message" : "Webpack dev server's publicPath, starts with '/' and ends with '/'",
             "default" : "/"
         },
-        "prefix": {
-            "type"    : "string",
-            "required": false,
-            "message" : "the host name for Ajax request",
-            "default" : ''
+        "fmcomponents": {
+          "type": "confirm",
+          "message": "Need fmcomponents?"
         },
         "imageminifying": {
           "type": "confirm",
