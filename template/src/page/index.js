@@ -1,13 +1,11 @@
 import 'babel-polyfill';
-import './reset.css';
+import './reset.less';
 
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { sync } from 'vuex-router-sync';
 
-const env = process.env.NODE_ENV || 'development';
-
-if(env !== 'development'){
+if(ENV !== 'development'){
     Vue.config.devtools = false;
     Vue.config.productionTip = false;
 }

@@ -10,12 +10,16 @@ let MxWebpackContentReplacePlugin = require('mx-webpack-content-replace-plugin')
 let getHappyPackConfig = require('./happypack');
 
 let config = require('../config');
-
+let exclude = /node_modules/;
 {{#fmcomponents}}
 let include = [
     path.resolve(__dirname, '../src/'),
     path.resolve(__dirname, '../node_modules/fmcomponents/src/')
 ];
+exclude = function (modulePath) {
+    return /node_modules/.test(modulePath) &&
+        !/node_modules\/fmcomponents/.test(modulePath);
+};
 {{/fmcomponents}}
 
 const env = process.env.NODE_ENV || 'development';
@@ -26,7 +30,7 @@ let {cdn, api, base} = config[env];
 console.log('\n---------env------:\n', env);
 console.log('\n---------cdn------:\n', cdn);
 console.log('\n---------base------:\n', base);
-console.log('\n---------api------:\n\n', api);
+console.log('\n---------api------:\n', api, '\n');
 
 module.exports = {
     context: path.resolve(__dirname, "../src"),
@@ -35,6 +39,7 @@ module.exports = {
         rules: [
             {
                 test: /\.vue$/,
+                exclude: exclude,
                 {{#fmcomponents}}
                 include: include,
                 {{/fmcomponents}}
@@ -44,10 +49,10 @@ module.exports = {
             },
             {
                 test: /\.js$/,
+                exclude: exclude,
                 {{#fmcomponents}}
                 include: include,
                 {{/fmcomponents}}
-                exclude: /node_modules/,
                 use: ['happypack/loader?id=js']
             },
             {
@@ -148,7 +153,7 @@ module.exports = {
         }),
 
         new MxWebpackContentReplacePlugin({
-            src: /\/\/cdn\.followme\.com\/cdn/g,
+            src: /(http(s?):)?\/\/cdn\.followme\.com/g,
             dest: cdn,
             exts: ['html', 'js', 'json', 'css']
         })
