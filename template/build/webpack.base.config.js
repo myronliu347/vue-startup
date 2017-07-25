@@ -153,7 +153,7 @@ module.exports = {
         }),
 
         new MxWebpackContentReplacePlugin({
-            src: /(http(s?):)?\/\/cdn\.followme\.com/g,
+            src: /(https?:)?\/\/cdn\.followme\.com\/cdn/g,
             dest: cdn,
             exts: ['html', 'js', 'json', 'css']
         })
