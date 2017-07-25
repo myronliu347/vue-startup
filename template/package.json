@@ -17,7 +17,7 @@
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     {{#fmcomponents}}
-    "fmcomponents": "git+ssh://gitlab@fmgit.chinacloudapp.cn/Frontend/fmcomponents.git",
+"fmcomponents": "git+ssh://gitlab@fmgit.chinacloudapp.cn/Frontend/fmcomponents.git#master",
     {{/fmcomponents}}
     "vue": "^2.3.4",
     "vue-router": "^2.7.0",
