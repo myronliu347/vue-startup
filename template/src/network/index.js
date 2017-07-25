@@ -25,7 +25,7 @@ export default {
                 params: obj.data ? obj.data : {}
             })
         )
-    }
+    },
 
     post (obj) {
         return Promise.resolve(
