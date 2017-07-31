@@ -10,32 +10,17 @@ module.exports = {
             "message" : "Project name",
             "default" : "vue-startup"
         },
-        "version": {
-            "type"    : "string",
-            "message" : "Project version",
-            "default" : "0.0.1"
-        },
         "description": {
             "type"    : "string",
             "required": false,
             "message" : "Project description",
             "default" : "A new Vue.js project"
         },
-        "author": {
-            "type"   : "string",
-            "message": "Author"
-        },
         "port": {
             "type"    : "string",
             "required": false,
             "message" : "client port",
             "default" : 3000
-        },
-        "path": {
-            "type"    : "string",
-            "required": false,
-            "message" : "Webpack's outputPath, starts with dirName, eg:'dist' or 'dist/build'",
-            "default" : "dist"
         },
         "state": {
             "type": "list",
@@ -52,12 +37,6 @@ module.exports = {
                     "short": "vuex"
                 }
             ]
-        },
-        "publicPath": {
-            "type"    : "string",
-            "required": false,
-            "message" : "Webpack dev server's publicPath, starts with '/' and ends with '/'",
-            "default" : "/"
         },
         "fmcomponents": {
           "type": "confirm",

@@ -1,8 +1,8 @@
 {
   "name": "{{name}}",
-  "version": "{{version}}",
+  "version": "1.0.0",
   "description": "{{description}}",
-  "author": "{{author}}",
+  "author": "followme.com",
   "license": "MIT",
   "scripts": {
     "prepush": "npm run ilint -q",

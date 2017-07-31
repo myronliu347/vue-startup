@@ -4,15 +4,15 @@ let path = require('path');
 
 module.exports =  {
     dev:{
-        assetsRoot: path.resolve(__dirname, '../{{path}}'),
-        assetsPublicPath: '{{publicPath}}',
-        contentBase: path.resolve(__dirname, '../{{path}}'),
+        assetsRoot: path.resolve(__dirname, '../dist'),
+        assetsPublicPath: '/',
+        contentBase: path.resolve(__dirname, '../dist'),
         port: {{port}}
     },
     build:{
-        assetsRoot: path.resolve(__dirname, '../{{path}}'),
-        assetsPublicPath: '{{publicPath}}',
-        contentBase: path.resolve(__dirname, '../{{path}}')
+        assetsRoot: path.resolve(__dirname, '../dist'),
+        assetsPublicPath: '/',
+        contentBase: path.resolve(__dirname, '../dist')
     },
     development: {
         cdn: 'http://cdn.followme.com/cdn',

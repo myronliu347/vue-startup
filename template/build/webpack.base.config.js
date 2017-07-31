@@ -106,7 +106,7 @@ module.exports = {
 
         //copy assets
         new CopyWebpackPlugin([
-            {context: '../src', from: 'assets/**/*', to: path.resolve(__dirname, '../{{path}}'), force: true}
+            {context: '../src', from: 'assets/**/*', to: path.resolve(__dirname, '../dist'), force: true}
         ]),
 
         new HappyPack(getHappyPackConfig({
