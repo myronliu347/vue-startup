@@ -37,6 +37,22 @@ module.exports = {
             "message" : "Webpack's outputPath, starts with dirName, eg:'dist' or 'dist/build'",
             "default" : "dist"
         },
+        "state": {
+            "type": "list",
+            "message": "state manage for your app",
+            "choices": [
+                {
+                    "name": "Mobx (https://github.com/mobxjs/mobx)",
+                    "value": "mobx",
+                    "short": "mobx"
+                },
+                {
+                    "name": "Vuex (https://github.com/vuejs/vuex)",
+                    "value": "vuex",
+                    "short": "vuex"
+                }
+            ]
+        },
         "publicPath": {
             "type"    : "string",
             "required": false,
