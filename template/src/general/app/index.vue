@@ -16,13 +16,13 @@
 
 <script>
     import './index.less';
-    import {mapActions, mapGetters} from 'vuex';
     import Hello from '@components/hello/';
-
+    {{#if_eq state 'vuex'}}
+    import {mapActions, mapGetters} from 'vuex';
     export default{
         data () {
             return {
-                title: 'vuejs 2 + webpack 2'
+                title: 'vuejs 2 + webpack 3'
             };
         },
 
@@ -40,6 +40,23 @@
             Hello
         }
     };
+    {{/if_eq}}
+    {{#if_eq state 'mobx'}}
+    import {connect} from 'vue-mobx';
+    import timeModel from '@src/mobx/time';
+
+    const indexComponent = {
+        data () {
+            return {
+                title: 'vuejs 2 + webpack 3'
+            };
+        },
+        components: {
+            Hello
+        }
+    }
+    export default connect({timeModel})(indexComponent)
+    {{/if_eq}}
 </script>
 
 <style></style>

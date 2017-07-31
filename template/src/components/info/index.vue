@@ -1,6 +1,7 @@
 <template lang="html">
     <div class="info">
         <h2>\{{info}}</h2>
+        <h3>Author: {{author}}</h3>
         <h3>Project Name: {{name}}</h3>
         <h3>Desc: {{description}}</h3>
     </div>
