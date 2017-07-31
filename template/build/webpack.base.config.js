@@ -87,11 +87,6 @@ module.exports = {
             'vue$': 'vue/dist/vue.js'
         }
     },
-    {{#jquery}}
-    externals: {
-       jquery: 'jQuery'
-    },
-    {{/jquery}}
 
     resolveLoader: {
         modules: [path.join(__dirname, '../node_modules')]
@@ -102,14 +97,6 @@ module.exports = {
     },
 
     plugins:[
-        {{#jquery}}
-        new webpack.ProvidePlugin({
-            $: "jquery",
-            jQuery: "jquery",
-            "window.jQuery": "jquery"
-        }),
-        {{/jquery}}
-
         new webpack.DefinePlugin({
             ENV: JSON.stringify(env),
             CDN: JSON.stringify(cdn),
