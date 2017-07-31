@@ -3,14 +3,24 @@ import './reset.less';
 
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+{{#if_eq state 'vuex'}}
 import { sync } from 'vuex-router-sync';
+{{/if_eq}}
+{{#if_eq state 'mobx'}}
+import VueMobx from 'vue-mobx';
+import {toJS, useStrict} from 'mobx';
 
+Vue.use(VueMobx, {toJS});
+useStrict(true);
+{{/if_eq}}
 if(ENV !== 'development'){
     Vue.config.devtools = false;
     Vue.config.productionTip = false;
 }
 
-import store from '../store/index';
+{{#if_eq state 'vuex'}}
+import store from '../vuex/index';
+{{/if_eq}}
 
 Vue.use(VueRouter);
 
@@ -35,11 +45,15 @@ const router = new VueRouter({
     ]
 });
 
+{{#if_eq state 'vuex'}}
 sync(store, router);
+{{/if_eq}}
 
 const app = new Vue({
     router,
+    {{#if_eq state 'vuex'}}
     store,
+    {{/if_eq}}
     ...Outer
 });
 
