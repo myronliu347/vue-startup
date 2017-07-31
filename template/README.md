@@ -51,7 +51,7 @@
 
 ## 其它
 
-* **window.PREFIX**: api请求前缀, 在 config/index.js#prefix 中配置
+* **API**: api请求前缀, 在 config/index.js 中配置
 * 脚手架默认加入了两个别名: `@src` 和 `@components`. 前者指向 `src` 目录, 后者指向 `src/components` 目录, 便于引入资源:
 
 ```
