@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import './reset.less';
 
 import Vue from 'vue';
