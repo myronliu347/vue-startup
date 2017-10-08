@@ -82,5 +82,5 @@ module.exports = Object.assign({},devConfig,{
         sourceMapFilename: '[file].map',
         chunkFilename: "[name].js"
     },
-    devtool:'cheap-module-eval-source-map'
+    devtool: 'source-map'
 });

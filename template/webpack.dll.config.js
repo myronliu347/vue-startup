@@ -13,9 +13,6 @@ let vendors = [
     'mobx', 'vue-mobx'
 ];
 {{/if_eq}}
-{{#fmcomponents}}
-vendors.push('fmcomponents')
-{{/fmcomponents}}
 
 module.exports = {
     entry: {

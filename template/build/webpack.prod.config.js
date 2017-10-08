@@ -73,7 +73,12 @@ prodConfig.plugins = (prodConfig.plugins || []).concat([
     }),
 
     new webpack.optimize.CommonsChunkPlugin({
-        name: "vendor"
+        name: "vendor",
+        minChunks: ({resource}) => (
+            resource &&
+            resource.indexOf('node_modules') >= 0 &&
+            resource.match(/\.js$/)
+        )
     }),
 
     // gzip
@@ -88,14 +93,13 @@ prodConfig.plugins = (prodConfig.plugins || []).concat([
     new ParallelUglifyPlugin({
         workerCount: os.cpus().length,
         cacheDir: '.cache/',
+        sourceMap: false,
         uglifyJS: {
             compress: {
                 warnings: false,
                 drop_debugger: true,
                 drop_console: true
             },
-            comments: false,
-            sourceMap: false,
             mangle: true
         }
     }),
@@ -127,11 +131,7 @@ prodConfig.plugins = (prodConfig.plugins || []).concat([
 
 module.exports = Object.assign({},prodConfig,{
     entry: {
-        app: path.resolve(__dirname, '../src/page/index.js'),
-        vendor: [
-            'vue', 'vuex', 'vue-router', 'vuex-router-sync',
-            'async-await-error-handling', 'axios'
-        ]
+        app: path.resolve(__dirname, '../src/page/index.js')
     },
     output: {
         filename: "[name].[chunkhash:8].js",
