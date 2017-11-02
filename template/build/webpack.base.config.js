@@ -1,16 +1,14 @@
-'use strict';
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HappyPack = require('happypack'); 
+const MxWebpackContentReplacePlugin = require('mx-webpack-content-replace-plugin');
 
-let path = require('path');
-let webpack = require('webpack');
-let HtmlWebpackPlugin = require('html-webpack-plugin');
-let CopyWebpackPlugin = require('copy-webpack-plugin');
-let HappyPack = require('happypack'); 
-let MxWebpackContentReplacePlugin = require('mx-webpack-content-replace-plugin');
+const getHappyPackConfig = require('./happypack');
 
-let getHappyPackConfig = require('./happypack');
-
-let config = require('../config');
-let exclude = /node_modules/;
+const config = require('../config');
+let exclude = /node_modules/
 {{#fmcomponents}}
 let include = [
     path.resolve(__dirname, '../src/'),
@@ -25,9 +23,9 @@ exclude = function (modulePath) {
 const env = process.env.NODE_ENV || 'development';
 
 // 全局变量
-let cdn = process.env.FM_CDN ? process.env.FM_CDN : config[env].cdn;
-let api = process.env.FM_API ? process.env.FM_API : config[env].api;
-let base = process.env.FM_BASE ? process.env.FM_BASE : config[env].base;
+const cdn = process.env.FM_CDN ? process.env.FM_CDN : config[env].cdn;
+const api = process.env.FM_API ? process.env.FM_API : config[env].api;
+const base = process.env.FM_BASE ? process.env.FM_BASE : config[env].base;
 
 console.log('\n---------env------:\n', env);
 console.log('\n---------cdn------:\n', cdn);
@@ -35,7 +33,7 @@ console.log('\n---------base------:\n', base);
 console.log('\n---------api------:\n', api, '\n');
 
 module.exports = {
-    context: path.resolve(__dirname, "../src"),
+    context: path.resolve(__dirname, '../src'),
     module: {
         noParse: [/static|assets/],
         rules: [
@@ -80,10 +78,10 @@ module.exports = {
         ]
     },
 
-    resolve:{
-        extensions:[".vue",".js"],
+    resolve: {
+        extensions: ['.vue', '.js'],
         modules: [path.join(__dirname, '../node_modules')],
-        alias:{
+        alias: {
             '@src': path.resolve(__dirname, '../src'),
             '@components': path.resolve(__dirname, '../src/components'),
             'vue$': 'vue/dist/vue.js'
@@ -98,11 +96,7 @@ module.exports = {
         hints: false
     },
 
-    externals: {
-        'babel-polyfill': 'window'
-    },
-
-    plugins:[
+    plugins: [
         new webpack.DefinePlugin({
             ENV: JSON.stringify(env),
             CDN: JSON.stringify(cdn),
@@ -112,7 +106,7 @@ module.exports = {
 
         //copy assets
         new CopyWebpackPlugin([
-            {context: '../src', from: 'assets/**/*', to: path.resolve(__dirname, '../dist'), force: true}
+            { context: '../src', from: 'assets/**/*', to: path.resolve(__dirname, '../dist'), force: true }
         ]),
 
         new HappyPack(getHappyPackConfig({
@@ -134,15 +128,15 @@ module.exports = {
 
         // https://github.com/ampedandwired/html-webpack-plugin
         new HtmlWebpackPlugin({
-          filename: 'index.html',
-          template: 'index.html',
-          inject: true,
-          env: env,
-          minify: {
+            filename: 'index.html',
+            template: 'index.html',
+            inject: true,
+            env: env,
+            minify: {
                 removeComments: true,
                 collapseWhitespace: true,
                 removeAttributeQuotes: false
-          }
+            }
         }),
 
         new MxWebpackContentReplacePlugin({
