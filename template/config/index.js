@@ -1,17 +1,15 @@
-'use strict';
+const path = require('path');
+const myIP = require('my-ip');
 
-let path = require('path');
-let myIP = require('my-ip');
-
-module.exports =  {
-    dev:{
+module.exports = {
+    dev: {
         assetsRoot: path.resolve(__dirname, '../dist'),
         assetsPublicPath: '/',
         contentBase: path.resolve(__dirname, '../dist'),
         port: 8080,
         clientIp: myIP()
     },
-    build:{
+    build: {
         assetsRoot: path.resolve(__dirname, '../dist'),
         assetsPublicPath: '/',
         contentBase: path.resolve(__dirname, '../dist')
@@ -47,4 +45,4 @@ module.exports =  {
         api: '//pre.followme.com',
         base: '//pre.followme.com'
     }
-}
+};
