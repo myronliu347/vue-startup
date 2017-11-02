@@ -104,7 +104,7 @@ module.exports = {
             BASE: JSON.stringify(base)
         }),
 
-        //copy assets
+        // copy assets
         new CopyWebpackPlugin([
             { context: '../src', from: 'assets/**/*', to: path.resolve(__dirname, '../dist'), force: true }
         ]),
