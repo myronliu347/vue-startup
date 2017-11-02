@@ -22,7 +22,7 @@ if(ENV !== 'development'){
 }
 
 {{#if_eq state 'vuex'}}
-import store from '../vuex/index';
+import store from '../store/index';
 {{/if_eq}}
 
 Vue.use(VueRouter);
