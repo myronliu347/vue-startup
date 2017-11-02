@@ -1,13 +1,15 @@
 'use strict';
 
 let path = require('path');
+let myIP = require('my-ip');
 
 module.exports =  {
     dev:{
         assetsRoot: path.resolve(__dirname, '../dist'),
         assetsPublicPath: '/',
         contentBase: path.resolve(__dirname, '../dist'),
-        port: {{port}}
+        port: 8080,
+        clientIp: myIP()
     },
     build:{
         assetsRoot: path.resolve(__dirname, '../dist'),
@@ -15,34 +17,34 @@ module.exports =  {
         contentBase: path.resolve(__dirname, '../dist')
     },
     development: {
-        cdn: 'http://cdn.followme.com/cdn',
-        api: 'http://ismemories.cn/api/v1',
-        // api: 'http://beta.api.followme.com/api/v1',
-        base: 'http://www.followme.com'
+        cdn: 'https://cdn.followme.com/cdn',
+        // api: '//dev.fmfe.com',
+        api: 'https://alibetawww.followme.com',
+        base: 'https://www.followme.com'
     },
     staging: {
-        cdn: 'http://cdn.followme.com/cdn',
-        api: 'http://ismemories.cn/api/v1',
-        base: 'http://www.followme.com'
+        cdn: '//cdn.followme.com/cdn',
+        api: '//beta.api.followme.com',
+        base: '//www.followme.com'
     },
     preview: {
-        cdn: 'http://cdn.followme.com/cdn',
-        api: 'http://frontend.followme.com/api/v1',
-        base: 'http://www.followme.com'
+        cdn: '//cdn.followme.com/cdn',
+        api: '//frontend.followme.com',
+        base: '//www.followme.com'
     },
     beta: {
-        cdn: 'http://beta.www.followme.com/cdn',
-        api: 'http://beta.www.followme.com/api/v1',
-        base: 'http://beta.www.followme.com'
+        cdn: '//beta.www.followme.com/cdn',
+        api: '//beta.www.followme.com',
+        base: '//beta.www.followme.com'
     },
     production: {
-        cdn: 'http://cdn.followme.com/cdn',
-        api: 'http://www.followme.com/api/v1',
-        base: 'http://www.followme.com'
+        cdn: '//cdn.followme.com/cdn',
+        api: '//www.followme.com',
+        base: '//www.followme.com'
     },
     test: {
-        cdn: 'http://pre.followme.com/cdn',
-        api: 'http://pre.followme.com/api/v1',
-        base: 'http://pre.followme.com'
+        cdn: '//pre.followme.com/cdn',
+        api: '//pre.followme.com',
+        base: '//pre.followme.com'
     }
 }

@@ -9,7 +9,7 @@ let getHappyPackConfig = require('./happypack');
 
 let devConfig = require('./webpack.base.config');
 let config = require('../config');
-const url = `http://localhost:${config.dev.port}/`;
+const url = `http://${config.dev.clientIp}:${config.dev.port}/`;
 
 devConfig.module.rules.unshift({
     test: /\.less$/,
@@ -71,7 +71,7 @@ module.exports = Object.assign({},devConfig,{
     entry: {
         app:[
             'webpack/hot/dev-server',
-            `webpack-dev-server/client?http://localhost:${config.dev.port}/`,
+            `webpack-dev-server/client?http://${config.dev.clientIp}:${config.dev.port}/`,
             path.resolve(__dirname, '../src/page/index.js')
         ]
     },

@@ -76,6 +76,7 @@
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.9.1",
     "webpack-md5-hash": "^0.0.5",
+    "my-ip": "^1.1.1",
     "webpack-parallel-uglify-plugin": "^1.0.0"
   },
   "engines": {
