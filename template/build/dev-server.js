@@ -26,7 +26,7 @@ function compiledFail () {
     }
 }
 
-server.listen(config.dev.port, 'localhost', (err) => {
+server.listen(config.dev.port, config.dev.clientIp, (err) => {
     if (err) {
         compiledFail();
         throw new gutil.PluginError('[webpack-dev-server err]', err);
