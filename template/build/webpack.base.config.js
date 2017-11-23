@@ -101,7 +101,10 @@ module.exports = {
             ENV: JSON.stringify(env),
             CDN: JSON.stringify(cdn),
             API: JSON.stringify(api),
-            BASE: JSON.stringify(base)
+            BASE: JSON.stringify(base),
+            'process.env': {
+                'NODE_ENV': env === 'development' ? 'development' : 'production'
+            }
         }),
 
         // copy assets
