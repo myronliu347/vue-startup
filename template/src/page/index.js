@@ -1,4 +1,4 @@
-import './reset.less';
+import 'normalize.css';
 import 'babel-polyfill';
 
 import Vue from 'vue';

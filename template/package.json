@@ -29,7 +29,8 @@
     "vue-mobx": "^1.3.2",
     {{/if_eq}}
     "async-await-error-handling": "^0.5.2",
-    "axios": "^0.16.2"
+    "axios": "^0.16.2",
+    "normalize.css": "^7.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.5",
