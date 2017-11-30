@@ -31,9 +31,9 @@ module.exports = {
             "message": "state manage for your app",
             "choices": [
                 {
-                    "name": "Mobx (https://github.com/mobxjs/mobx)",
-                    "value": "mobx",
-                    "short": "mobx"
+                    "name": "Revuejs (https://github.com/dwqs/revuejs)",
+                    "value": "revue",
+                    "short": "revue"
                 },
                 {
                     "name": "Vuex (https://github.com/vuejs/vuex)",
@@ -53,7 +53,7 @@ module.exports = {
     },
     "filters": {
         "src/vuex/**/*": "state === 'vuex'",
-        "src/mobx/**/*": "state === 'mobx'"
+        "src/modules/**/*": "state === 'revue'"
     },
     "completeMessage": "To get started:\n\n  cd {{destDirName}}\n  npm install\n  npm run dll\n  npm run dev\n\nDocumentation can be found at https://github.com/fmfe/vue-startup"
 }
