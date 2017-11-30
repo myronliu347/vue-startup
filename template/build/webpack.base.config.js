@@ -103,7 +103,7 @@ module.exports = {
             API: JSON.stringify(api),
             BASE: JSON.stringify(base),
             'process.env': {
-                'NODE_ENV': env === 'development' ? 'development' : 'production'
+                'NODE_ENV': env === '"development"' ? '"development"' : '"production"'
             }
         }),
 
