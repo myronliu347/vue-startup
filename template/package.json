@@ -8,9 +8,9 @@
     "prepush": "npm run ilint -q",
     "dll": "npx webpack --config webpack.dll.config.js",
     "dev": "npx cross-env NODE_ENV=development node ./build/dev-server.js",
-    "build:stag": "npx cross-env NODE_ENV=staging ./node_modules/.bin/webpack --config ./build/webpack.prod.config.js --progress --hide-modules",
-    "build:pre": "npx cross-env NODE_ENV=preview ./node_modules/.bin/webpack --config ./build/webpack.prod.config.js --progress --hide-modules",
-    "build:prod": "npx cross-env NODE_ENV=production ./node_modules/.bin/webpack --config ./build/webpack.prod.config.js --progress --hide-modules",
+    "build:beta": "npx cross-env NODE_ENV=beta npx webpack --config ./build/webpack.prod.config.js --progress --hide-modules",
+    "build:alibeta": "npx cross-env NODE_ENV=alibeta npx webpack --config ./build/webpack.prod.config.js --progress --hide-modules", 
+    "build:prod": "npx cross-env NODE_ENV=production npx webpack --config ./build/webpack.prod.config.js --progress --hide-modules",
     "ilint": "npx eslint src/**/*.js src/**/*.vue",
     "fix": "npx eslint --fix src/**/*.js src/**/*.vue"
   },

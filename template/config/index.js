@@ -15,34 +15,28 @@ module.exports = {
         contentBase: path.resolve(__dirname, '../dist')
     },
     development: {
-        cdn: 'https://cdn.followme.com/cdn',
+        cdn: '//alibetacdn.followme.com',
         // api: '//dev.fmfe.com',
         api: 'https://alibetawww.followme.com',
-        base: 'https://www.followme.com'
-    },
-    staging: {
-        cdn: '//cdn.followme.com/cdn',
-        api: '//beta.api.followme.com',
-        base: '//www.followme.com'
-    },
-    preview: {
-        cdn: '//cdn.followme.com/cdn',
-        api: '//frontend.followme.com',
-        base: '//www.followme.com'
+        base: '//alibetawww.followme.com',
+        fmbase: '//alibetawww.followme.com'
     },
     beta: {
-        cdn: '//beta.www.followme.com/cdn',
-        api: '//beta.www.followme.com',
-        base: '//beta.www.followme.com'
+        cdn: '//cdn.fmfe.com',
+        api: '//dev.fmfe.com',
+        base: '//dev.fmfe.com',
+        fmbase: '//dev.fmfe.com'
+    },
+    alibeta: {
+        cdn: '//alibetacdn.followme.com',
+        api: '//alibetawww.followme.com',
+        base: '//alibetatrade.followme.com',
+        fmbase: '//alibetawww.followme.com'
     },
     production: {
-        cdn: '//cdn.followme.com/cdn',
+        cdn: '//cdn.followme.com',
         api: '//www.followme.com',
-        base: '//www.followme.com'
-    },
-    test: {
-        cdn: '//pre.followme.com/cdn',
-        api: '//pre.followme.com',
-        base: '//pre.followme.com'
+        base: '//trade.followme.com',
+        fmbase: '//www.followme.com'
     }
 };
