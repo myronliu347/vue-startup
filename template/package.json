@@ -12,7 +12,8 @@
     "build:alibeta": "npx cross-env NODE_ENV=alibeta npx webpack --config ./build/webpack.prod.config.js --progress --hide-modules", 
     "build:prod": "npx cross-env NODE_ENV=production npx webpack --config ./build/webpack.prod.config.js --progress --hide-modules",
     "ilint": "npx eslint src/**/*.js src/**/*.vue",
-    "fix": "npx eslint --fix src/**/*.js src/**/*.vue"
+    "fix": "npx eslint --fix src/**/*.js src/**/*.vue",
+    "commitmsg": "npx commitlint -e"
   },
   "dependencies": {
     {{#fmcomponents}}
@@ -32,6 +33,8 @@
     "normalize.css": "^7.0.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^5.2.8",
+    "@commitlint/config-angular": "^5.1.1",
     "autoprefixer": "^7.1.5",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.1",
@@ -53,6 +56,7 @@
     "gulp-util": "^3.0.8",
     "happypack": "^4.0.0",
     "html-webpack-plugin": "^2.30.1",
+    "cz-conventional-changelog": "^2.1.0",
     "less": "^2.7.2",
     "less-loader": "^4.0.5",
     "open-browser-webpack-plugin": "^0.0.5",
@@ -74,5 +78,10 @@
   "engines": {
     "node": ">= 5.0.0",
     "npm": ">= 3.0.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
