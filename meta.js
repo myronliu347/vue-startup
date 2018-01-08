@@ -45,10 +45,6 @@ module.exports = {
         "fmcomponents": {
           "type": "confirm",
           "message": "Need fmcomponents?"
-        },
-        "imageminifying": {
-          "type": "confirm",
-          "message": "Need image minifying in production?"
         }
     },
     "filters": {
