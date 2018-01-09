@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HappyPack = require('happypack'); 
 const MxWebpackContentReplacePlugin = require('mx-webpack-content-replace-plugin');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 const getHappyPackConfig = require('./happypack');
 
@@ -147,6 +148,8 @@ module.exports = {
             src: /(https?:)?\/\/cdn\.followme\.com\/cdn/g,
             dest: cdn,
             exts: ['html', 'js', 'json', 'css']
-        })
+        }),
+
+        new ProgressBarPlugin()
     ]
 };
