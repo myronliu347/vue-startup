@@ -58,8 +58,8 @@ function getExcludAndInclude () {
     let include = [];
     {{#fmcomponents}}
     include = [
-        utils.resolve('src'),
-        utils.resolve('node_modules/fmcomponents/src/')
+        resolve('src'),
+        resolve('node_modules/fmcomponents/src/')
     ];
     exclude = function (modulePath) {
         return /node_modules/.test(modulePath) &&
@@ -70,7 +70,7 @@ function getExcludAndInclude () {
     return {
         exclude: exclude,
         include: include
-    }
+    };
 }
 
 module.exports = {

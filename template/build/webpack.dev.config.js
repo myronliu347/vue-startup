@@ -24,7 +24,7 @@ module.exports = merge(baseWebpackConfig, {
                 type: 'javascript/auto',
                 exclude: utils.getExcludAndInclude().exclude,
                 {{#fmcomponents}}
-                include: utils.getExcludAndInclude().exclude,
+                include: utils.getExcludAndInclude().include,
                 {{/fmcomponents}}
                 use: ['vue-loader']
             }

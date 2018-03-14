@@ -13,6 +13,7 @@ const config = require('../config');
 const env = process.env.NODE_ENV || 'development';
 
 module.exports = merge(baseWebpackConfig, {
+    mode: 'production',
     entry: {
         app: utils.resolve('src/page/index.js')
     },
@@ -22,7 +23,7 @@ module.exports = merge(baseWebpackConfig, {
                 test: /\.vue$/,
                 type: 'javascript/auto',
                 exclude: utils.getExcludAndInclude().exclude,
-                include: exclude: utils.getExcludAndInclude().include,
+                include: utils.getExcludAndInclude().include,
                 loader: 'vue-loader',
                 options: {
                     loaders: {
@@ -100,3 +101,4 @@ module.exports = merge(baseWebpackConfig, {
         new WebpackMd5Hash()
     ]
 });
+
