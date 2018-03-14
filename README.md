@@ -19,4 +19,4 @@ chare init fmfe/vue-startup your-project-name -o remote-url
 一些字段说明如下:
 
  * **port**: 客户端的端口号, 默认是 3000
- * **state**: 状态管理工具选择，目前支持 [revuejs](https://github.com/dwqs/revuejs) 和 vuex
+ * **state**: 状态管理工具选择，目前支持 [revuejs](https://github.com/dwqs/revuejs) / vuex / mobx

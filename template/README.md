@@ -7,9 +7,6 @@
  # 安装依赖
  npm i
 
- # 生成 dll 文件, 用于缩短开发时的 rebuild 时间
- npm run dll
-
  # 启动脚本
  npm run dev
 ```
@@ -28,9 +25,9 @@
 
 * `npm run ilint`: eslint 检查, 会根据 .eslintrc 的配置去检查 `src` 目录下的 `.vue` 和 `.js` 文件. 项目中加入了 `pre-push hooks`, 每次 `push` 之前都会自动运行该脚本. 可以参考 [doc](http://eslint.org/docs/rules/) 自定义配置.
 * `npm run fix`: eslint 自动修复
-* `npm run build:beta`: 开发环境 build
-* `npm run build:alibeta`: 测试环境 build
-* `npm run build:prod`: 生产环境 build
+* `npm run master`: 开发环境 build
+* `npm run alibeta`: 测试环境 build
+* `npm run production`: 生产环境 build
 
 ## 目录结构
 
