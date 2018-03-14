@@ -10,10 +10,7 @@ function resolve (dir) {
 }
 
 function assetsPath (_path) {
-    const assetsSubDirectory = env === 'production' 
-        ? config[env].assetsSubDirectory
-        : config[env].assetsSubDirectory;
-
+    const assetsSubDirectory = config[env].assetsSubDirectory || 'static';
     return path.posix.join(assetsSubDirectory, _path);
 }
 
@@ -24,15 +21,15 @@ function extractCSS (opts) {
     const cssLoader = {
         loader: 'css-loader',
         options: {
-            minimize: env === 'production',
-            sourceMap: env === 'production'
+            minimize: env !== 'development',
+            sourceMap: env !== 'development',
         }
     };
 
     const postcssLoader = {
         loader: 'postcss-loader',
         options: {
-            sourceMap: env === 'production'
+            sourceMap: env !== 'development'
         }
     };
 
@@ -41,12 +38,12 @@ function extractCSS (opts) {
         loaders.push({
             loader: 'less-loader',
             options: {
-                sourceMap: env === 'production'
+                sourceMap: env !== 'development'
             }
         });
     }
 
-    if (env === 'production') {
+    if (env !== 'development') {
         return ExtractTextPlugin.extract({
             use: loaders,
             fallback: 'vue-style-loader'
