@@ -9,6 +9,7 @@ module.exports = {
         contentBase: utils.resolve('dist'),
         port: 8080,
         clientIp: myIP(),
+        assetsSubDirectory: 'static',
         cdn: '//cdn.fmfe.com',
         // api: 'https://alibetawww.followme.com',
         api: '//dev.fmfe.com',
@@ -19,6 +20,7 @@ module.exports = {
         assetsRoot: utils.resolve('dist'),
         assetsPublicPath: '/',
         contentBase: utils.resolve('dist'),
+        assetsSubDirectory: 'static',
         cdn: '//cdn.fmfe.com',
         api: '//dev.fmfe.com',
         base: '//dev.fmfe.com',
@@ -26,6 +28,7 @@ module.exports = {
     },
     alibeta: {
         assetsRoot: utils.resolve('dist'),
+        assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         contentBase: putils.resolve('dist'),
         cdn: 'https://alibetacdn.followme.com',
@@ -35,6 +38,7 @@ module.exports = {
     },
     production: {
         assetsRoot: utils.resolve('dist'),
+        assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         contentBase: utils.resolve('dist'),
         cdn: 'https://cdn.followme.com',
