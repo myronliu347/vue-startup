@@ -53,8 +53,29 @@ function extractCSS (opts) {
     }
 }
 
+function getExcludAndInclude () {
+    let exclude = /node_modules/;
+    let include = [];
+    {{#fmcomponents}}
+    include = [
+        utils.resolve('src'),
+        utils.resolve('node_modules/fmcomponents/src/')
+    ];
+    exclude = function (modulePath) {
+        return /node_modules/.test(modulePath) &&
+            !/node_modules\/fmcomponents/.test(modulePath);
+    };
+    {{/fmcomponents}}
+
+    return {
+        exclude: exclude,
+        include: include
+    }
+}
+
 module.exports = {
     resolve: resolve,
     assetsPath: assetsPath,
-    extractCSS: extractCSS
+    extractCSS: extractCSS,
+    getExcludAndInclude: getExcludAndInclude
 };

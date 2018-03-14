@@ -24,7 +24,7 @@ module.exports = {
             "type"    : "string",
             "required": false,
             "message" : "client port",
-            "default" : 3000
+            "default" : 8080
         },
         "state": {
             "type": "list",
@@ -39,6 +39,11 @@ module.exports = {
                     "name": "Vuex (https://github.com/vuejs/vuex)",
                     "value": "vuex",
                     "short": "vuex"
+                },
+                {
+                    "name": "Mobx (https://github.com/mobxjs/mobx)",
+                    "value": "mobx",
+                    "short": "mobx"
                 }
             ]
         },
@@ -49,7 +54,8 @@ module.exports = {
     },
     "filters": {
         "src/vuex/**/*": "state === 'vuex'",
-        "src/modules/**/*": "state === 'revue'"
+        "src/modules/**/*": "state === 'revue'",
+        "src/mobx/**/*": "state === 'mobx'"
     },
-    "completeMessage": "To get started:\n\n  cd {{destDirName}}\n  npm install\n  npm run dll\n  npm run dev\n\nDocumentation can be found at https://github.com/fmfe/vue-startup"
+    "completeMessage": "To get started:\n\n  cd {{destDirName}}\n  npm install \\n  npm run dev\n\nDocumentation can be found at https://github.com/fmfe/vue-startup"
 }

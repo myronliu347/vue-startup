@@ -1,119 +1,102 @@
-const path = require('path');
 const webpack = require('webpack');
+const merge = require('webpack-merge');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
-const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
-const os = require('os');
 const CompressionPlugin = require('compression-webpack-plugin');
-const HappyPack = require('happypack');  
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin'); 
 
-const getHappyPackConfig = require('./happypack');
-
-const prodConfig = require('./webpack.base.config');
+const utils = require('./utils');
+const baseWebpackConfig = require('./webpack.base.config');
 const config = require('../config');
 
-prodConfig.module.rules.unshift({
-    test: /\.less$/,
-    use: ExtractTextPlugin.extract({
-        fallback: 'vue-style-loader',
-        use: ['happypack/loader?id=less-prod']
-    })
-}, {
-    test: /\.css$/,
-    use: ExtractTextPlugin.extract({
-        fallback: 'vue-style-loader',
-        use: ['happypack/loader?id=css-prod']
-    })
-});
+const env = process.env.NODE_ENV || 'development';
 
-prodConfig.plugins = (prodConfig.plugins || []).concat([
-    new CleanWebpackPlugin(['dist'], {
-        root: path.join(__dirname, '../'),
-        verbose: true,
-        dry: false
-    }),
-
-    new ExtractTextPlugin({
-        filename: '[name].[contenthash:8].css'
-    }),
-
-    new HappyPack(getHappyPackConfig({
-        id: 'less-prod',
-        loaders: ['css-loader', {
-            path: 'postcss-loader',
-            query: {
-                sourceMap: 'inline'
-            }
-        }, 'less-loader']
-    })),
-
-    new HappyPack(getHappyPackConfig({
-        id: 'css-prod',
-        loaders: ['css-loader', {
-            path: 'postcss-loader',
-            query: {
-                sourceMap: 'inline'
-            }
-        }]
-    })),
-
-    // Compress extracted CSS. We are using this plugin so that possible
-    // duplicated CSS from different components can be deduped.
-    new OptimizeCSSPlugin({
-        cssProcessorOptions: {
-            safe: true
-        },
-        cssProcessor: require('cssnano'),
-        assetNameRegExp: /\.less|\.css$/g
-    }),
-
-    new webpack.optimize.CommonsChunkPlugin({
-        name: 'vendor',
-        minChunks: ({ resource }) => (
-            resource &&
-            resource.indexOf('node_modules') >= 0 &&
-            resource.match(/\.js$/)
-        )
-    }),
-
-    // gzip
-    new CompressionPlugin({
-        asset: '[path].gz[query]',
-        algorithm: 'gzip',
-        test: /\.(js|html|less)$/,
-        threshold: 10240,
-        minRatio: 0.8
-    }),
-
-    new ParallelUglifyPlugin({
-        workerCount: os.cpus().length,
-        cacheDir: '.cache/',
-        sourceMap: false,
-        uglifyJS: {
-            compress: {
-                warnings: false,
-                /* eslint-disable camelcase */
-                drop_debugger: true,
-                drop_console: true
-            },
-            mangle: true
-        }
-    }),
-    
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    new WebpackMd5Hash()
-]);
-
-module.exports = Object.assign({}, prodConfig, {
+module.exports = merge(baseWebpackConfig, {
     entry: {
-        app: path.resolve(__dirname, '../src/page/index.js')
+        app: utils.resolve('src/page/index.js')
+    },
+    module: {
+        rules: [
+            {
+                test: /\.vue$/,
+                type: 'javascript/auto',
+                exclude: utils.getExcludAndInclude().exclude,
+                include: exclude: utils.getExcludAndInclude().include,
+                loader: 'vue-loader',
+                options: {
+                    loaders: {
+                        css: utils.extractCSS(),
+                        less: utils.extractCSS({
+                            lang: 'less'
+                        })
+                    }
+                }
+            }
+        ]
     },
     output: {
-        filename: '[name].[chunkhash:8].js',
-        path: config.build.assetsRoot,
-        publicPath: config.build.assetsPublicPath,
-        chunkFilename: '[name].[chunkhash:8].js'
-    }
+        filename: utils.assetsPath('js/[name].[chunkhash:8].js'),
+        path: config[env].assetsRoot,
+        publicPath: config[env].assetsPublicPath,
+        sourceMapFilename: '[file].map',
+        chunkFilename: utils.assetsPath('js/[name].[chunkhash:8].js')
+    },
+    optimization: {
+        // chunk for the webpack runtime code and chunk manifest
+        runtimeChunk: {
+            name: 'manifest'
+        },
+        // https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
+        splitChunks: {
+            cacheGroups: {
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    priority: -20,
+                    chunks: 'all'
+                }
+            }
+        }
+    },
+    devtool: false,
+    plugins: [
+        new webpack.HashedModuleIdsPlugin(),
+
+        new ExtractTextPlugin({
+            filename: utils.assetsPath('css/[name].[contenthash:8].css')
+        }),
+
+        new OptimizeCSSPlugin({
+            cssProcessorOptions: {
+                safe: true
+            }
+        }),
+
+        // gzip
+        new CompressionPlugin({
+            asset: '[path].gz[query]',
+            algorithm: "gzip",
+            test: /\.(js|html|less|css)$/,
+            threshold: 10240,
+            minRatio: 0.8
+        }),
+
+        new UglifyJsPlugin({
+            parallel: true,
+            cache: '.cache/',
+            sourceMap: true,
+            uglifyOptions: {
+                compress: {
+                    warnings: false,
+                    /* eslint-disable */
+                    drop_debugger: true,
+                    drop_console: true
+                },
+                mangle: true
+            }
+        }),
+
+        new WebpackMd5Hash()
+    ]
 });

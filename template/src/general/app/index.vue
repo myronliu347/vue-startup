@@ -18,7 +18,7 @@
     import './index.less';
     import Hello from '@components/hello/';
     {{#if_eq state 'vuex'}}
-    import {mapActions, mapGetters} from 'vuex';
+    import { mapActions, mapGetters } from 'vuex';
     export default{
         data () {
             return {
@@ -64,6 +64,23 @@
         }
     };
     {{/if_eq}}
-</script>
+    {{#if_eq state 'mobx'}}
+    import timeModel from '@src/mobx/time';
 
-<style></style>
+    export default{
+        data () {
+            return {
+                title: 'vuejs 2 + webpack 3'
+            };
+        },
+
+        fromMobx: {
+            timeModel
+        },
+
+        components: {
+            Hello
+        }
+    };
+    {{/if_eq}}
+</script>

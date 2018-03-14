@@ -1,25 +1,11 @@
-const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HappyPack = require('happypack'); 
 const MxWebpackContentReplacePlugin = require('mx-webpack-content-replace-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
-const getHappyPackConfig = require('./happypack');
-
 const config = require('../config');
-let exclude = /node_modules/
-{{#fmcomponents}}
-let include = [
-    path.resolve(__dirname, '../src/'),
-    path.resolve(__dirname, '../node_modules/fmcomponents/src/')
-];
-exclude = function (modulePath) {
-    return /node_modules/.test(modulePath) &&
-        !/node_modules\/fmcomponents/.test(modulePath);
-};
-{{/fmcomponents}}
+const utils = require('./utils');
 
 const env = process.env.NODE_ENV || 'development';
 
@@ -34,45 +20,51 @@ console.log('\n---------base------:\n', base);
 console.log('\n---------api------:\n', api, '\n');
 
 module.exports = {
-    context: path.resolve(__dirname, '../src'),
+    mode: env,
+    context: utils.resolve('src'),
     module: {
         noParse: [/static|assets/],
         rules: [
             {
-                test: /\.vue$/,
-                exclude: exclude,
-                {{#fmcomponents}}
-                include: include,
-                {{/fmcomponents}}
-                use: [{
-                    loader: 'happypack/loader?id=vue'
-                }]
-            },
-            {
                 test: /\.js$/,
-                exclude: exclude,
+                type: 'javascript/auto',
+                exclude: utils.getExcludAndInclude().exclude,
                 {{#fmcomponents}}
-                include: include,
+                include: utils.getExcludAndInclude().include,
                 {{/fmcomponents}}
-                use: ['happypack/loader?id=js']
+                use: ['babel-loader']
             },
             {
-                test: /\.(png|jpg|gif|jpeg)$/,
+                test: /\.less$/,
+                type: 'javascript/auto',
+                use: utils.extractCSS({
+                    lang: 'less'
+                })
+            },
+            {
+                test: /\.css$/,
+                type: 'javascript/auto',
+                use: utils.extractCSS()
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+                type: 'javascript/auto',
                 use: [{
                     loader: 'url-loader',
                     options: {
                         limit: 8192,
-                        name: '[name].[ext]?[hash:8]'
+                        name: utils.assetsPath('images/[name].[ext]')
                     }
                 }]
             },
             {
                 test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+                type: 'javascript/auto',
                 use: [{
-                    loader: 'file-loader',
+                    loader: 'url-loader',
                     options: {
-                        limit: 8192,
-                        name: '[name].[ext]?[hash:8]'
+                        limit: 10000,
+                        name: utils.assetsPath('fonts/[name].[ext]')
                     }
                 }]
             }
@@ -80,17 +72,17 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['.vue', '.js'],
-        modules: [path.join(__dirname, '../node_modules')],
+        extensions: ['.vue', '.js', '.json'],
+        modules: [utils.resolve('node_modules')],
         alias: {
-            '@src': path.resolve(__dirname, '../src'),
-            '@components': path.resolve(__dirname, '../src/components'),
+            '@src': utils.resolve('src'),
+            '@components': utils.resolve('src/components'),
             'vue$': 'vue/dist/vue.esm.js'
         }
     },
 
     resolveLoader: {
-        modules: [path.join(__dirname, '../node_modules')]
+        modules: [utils.resolve('node_modules')]
     },
 
     performance: {
@@ -102,34 +94,26 @@ module.exports = {
             ENV: JSON.stringify(env),
             CDN: JSON.stringify(cdn),
             API: JSON.stringify(api),
-            BASE: JSON.stringify(base),
-            'process.env': {
-                'NODE_ENV': env === '"development"' ? '"development"' : '"production"'
-            }
+            BASE: JSON.stringify(base)
         }),
 
         // copy assets
         new CopyWebpackPlugin([
-            { context: '../src', from: 'assets/**/*', to: path.resolve(__dirname, '../dist'), force: true }
+            { 
+                context: '..', 
+                from: 'static/**/*', 
+                to: utils.resolve('dist'), 
+                force: true,
+                ignore: ['.*']
+            }, 
+            {
+                context: '../src',
+                from: 'assets/**/*',
+                to: utils.resolve('dist'),
+                force: true,
+                ignore: ['.*']
+            }
         ]),
-
-        new HappyPack(getHappyPackConfig({
-            id: 'vue',
-            loaders: ['vue-loader']
-            // loaders: [{
-            //     path: 'vue-loader',
-            //     query: {
-            //         // https://github.com/vuejs/vue-loader/issues/863
-            //         esModule: false
-            //     }
-            // }]
-        })),
-
-        new HappyPack(getHappyPackConfig({
-            id: 'js',
-            loaders: ['babel-loader']
-        })),
-
 
         // https://github.com/ampedandwired/html-webpack-plugin
         new HtmlWebpackPlugin({
@@ -143,7 +127,7 @@ module.exports = {
                 removeAttributeQuotes: false
             }
         }),
-
+        
         new MxWebpackContentReplacePlugin({
             src: /(https?:)?\/\/cdn\.followme\.com\/cdn/g,
             dest: cdn,

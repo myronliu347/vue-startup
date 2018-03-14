@@ -7,7 +7,7 @@ module.exports = {
         assetsRoot: utils.resolve('dist'),
         assetsPublicPath: '/',
         contentBase: utils.resolve('dist'),
-        port: 8080,
+        port: {{port}},
         clientIp: myIP(),
         assetsSubDirectory: 'static',
         cdn: '//cdn.fmfe.com',
