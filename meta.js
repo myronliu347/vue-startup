@@ -57,5 +57,5 @@ module.exports = {
         "src/modules/**/*": "state === 'revue'",
         "src/mobx/**/*": "state === 'mobx'"
     },
-    "completeMessage": "To get started:\n\n  cd {{destDirName}}\n  npm install \\n  npm run dev\n\nDocumentation can be found at https://github.com/fmfe/vue-startup"
+    "completeMessage": "To get started:\n\n  cd {{destDirName}}\n  npm install \n\n  npm run dev\n\nDocumentation can be found at https://github.com/fmfe/vue-startup"
 }
