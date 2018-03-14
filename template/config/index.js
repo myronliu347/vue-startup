@@ -8,7 +8,12 @@ module.exports = {
         assetsPublicPath: '/',
         contentBase: utils.resolve('dist'),
         port: 8080,
-        clientIp: myIP()
+        clientIp: myIP(),
+        cdn: '//cdn.fmfe.com',
+        // api: 'https://alibetawww.followme.com',
+        api: '//dev.fmfe.com',
+        base: '//dev.fmfe.com',
+        fmbase: '//dev.fmfe.com'
     },
     master: {
         assetsRoot: utils.resolve('dist'),
