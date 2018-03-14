@@ -1,42 +1,40 @@
 const path = require('path');
 const myIP = require('my-ip');
+const utils = require('../build/utils');
 
 module.exports = {
-    dev: {
-        assetsRoot: path.resolve(__dirname, '../dist'),
+    development: {
+        assetsRoot: utils.resolve('dist'),
         assetsPublicPath: '/',
-        contentBase: path.resolve(__dirname, '../dist'),
+        contentBase: utils.resolve('dist'),
         port: 8080,
         clientIp: myIP()
     },
-    build: {
-        assetsRoot: path.resolve(__dirname, '../dist'),
+    master: {
+        assetsRoot: utils.resolve('dist'),
         assetsPublicPath: '/',
-        contentBase: path.resolve(__dirname, '../dist')
-    },
-    development: {
-        cdn: '//alibetacdn.followme.com',
-        // api: '//dev.fmfe.com',
-        api: 'https://alibetawww.followme.com',
-        base: '//alibetawww.followme.com',
-        fmbase: '//alibetawww.followme.com'
-    },
-    beta: {
+        contentBase: utils.resolve('dist'),
         cdn: '//cdn.fmfe.com',
         api: '//dev.fmfe.com',
         base: '//dev.fmfe.com',
         fmbase: '//dev.fmfe.com'
     },
     alibeta: {
-        cdn: '//alibetacdn.followme.com',
-        api: '//alibetawww.followme.com',
-        base: '//alibetatrade.followme.com',
-        fmbase: '//alibetawww.followme.com'
+        assetsRoot: utils.resolve('dist'),
+        assetsPublicPath: '/',
+        contentBase: putils.resolve('dist'),
+        cdn: 'https://alibetacdn.followme.com',
+        api: 'https://alibetawww.followme.com',
+        base: 'https://alibetawww.followme.com',
+        fmbase: 'https://alibetawww.followme.com'
     },
     production: {
-        cdn: '//cdn.followme.com',
-        api: '//www.followme.com',
-        base: '//trade.followme.com',
-        fmbase: '//www.followme.com'
+        assetsRoot: utils.resolve('dist'),
+        assetsPublicPath: '/',
+        contentBase: utils.resolve('dist'),
+        cdn: 'https://cdn.followme.com',
+        api: 'https://www.followme.com',
+        base: 'https://trade.followme.com',
+        fmbase: 'https://www.followme.com'
     }
 };
