@@ -17,39 +17,37 @@ function assetsPath (_path) {
 function extractCSS (opts) {
     // only support css/less
     const options = opts || {};
+    const loaderKey = env === 'development' ? 'loader' : 'path';
+    const optionsKey = env === 'development' ? 'options' : 'query';
 
     const cssLoader = {
-        loader: 'css-loader',
-        options: {
-            minimize: env !== 'development',
-            sourceMap: env !== 'development',
+        [loaderKey]: 'css-loader',
+        [optionsKey]: {
+            minimize: env === 'development',
+            sourceMap: env === 'development'
         }
     };
 
     const postcssLoader = {
-        loader: 'postcss-loader',
-        options: {
-            sourceMap: env !== 'development'
+        [loaderKey]: 'postcss-loader',
+        [optionsKey]: {
+            sourceMap: env === 'development'
         }
     };
 
-    const loaders = [cssLoader, postcssLoader];
-    if (options.lang === 'less') {
-        loaders.push({
-            loader: 'less-loader',
-            options: {
-                sourceMap: env !== 'development'
-            }
-        });
-    }
+    const lessLoader = {
+        [loaderKey]: 'less-loader',
+        [optionsKey]: {
+            sourceMap: env === 'development'
+        }
+    };
 
-    if (env !== 'development') {
-        return ExtractTextPlugin.extract({
-            use: loaders,
-            fallback: 'vue-style-loader'
-        });
-    } else {
+    const loaders = [cssLoader, postcssLoader, lessLoader];
+
+    if (env === 'development') {
         return ['vue-style-loader'].concat(loaders);
+    } else {
+        return loaders;
     }
 }
 

@@ -4,8 +4,11 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 const CompressionPlugin = require('compression-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin'); 
+const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
+const HappyPack = require('happypack');   
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 
+const getHappyPackConfig = require('./happypack');
 const utils = require('./utils');
 const baseWebpackConfig = require('./webpack.base.config');
 const config = require('../config');
@@ -13,26 +16,17 @@ const config = require('../config');
 const env = process.env.NODE_ENV || 'development';
 
 module.exports = merge(baseWebpackConfig, {
-    mode: 'production',
     entry: {
         app: utils.resolve('src/page/index.js')
     },
     module: {
         rules: [
             {
-                test: /\.vue$/,
-                type: 'javascript/auto',
-                exclude: utils.getExcludAndInclude().exclude,
-                include: utils.getExcludAndInclude().include,
-                loader: 'vue-loader',
-                options: {
-                    loaders: {
-                        css: utils.extractCSS(),
-                        less: utils.extractCSS({
-                            lang: 'less'
-                        })
-                    }
-                }
+                test: /\.(less|css)$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: 'vue-style-loader',
+                    use: ['happypack/loader?id=css']
+                })
             }
         ]
     },
@@ -43,26 +37,14 @@ module.exports = merge(baseWebpackConfig, {
         sourceMapFilename: '[file].map',
         chunkFilename: utils.assetsPath('js/[name].[chunkhash:8].js')
     },
-    optimization: {
-        // chunk for the webpack runtime code and chunk manifest
-        runtimeChunk: {
-            name: 'manifest'
-        },
-        // https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
-        splitChunks: {
-            cacheGroups: {
-                vendors: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendors',
-                    priority: -20,
-                    chunks: 'all'
-                }
-            }
-        }
-    },
     devtool: false,
     plugins: [
         new webpack.HashedModuleIdsPlugin(),
+
+        new HappyPack(getHappyPackConfig({
+            id: 'css',
+            loaders: utils.extractCSS()
+        })),
 
         new ExtractTextPlugin({
             filename: utils.assetsPath('css/[name].[contenthash:8].css')
@@ -74,30 +56,44 @@ module.exports = merge(baseWebpackConfig, {
             }
         }),
 
+        // new webpack.optimize.CommonsChunkPlugin({
+        //     name: 'vendor',
+        //     minChunks: ({ resource }) => (
+        //         resource &&
+        //         resource.indexOf('node_modules') >= 0 &&
+        //         resource.match(/\.js$/)
+        //     )
+        // }),
+
         // gzip
         new CompressionPlugin({
             asset: '[path].gz[query]',
-            algorithm: "gzip",
+            algorithm: 'gzip',
             test: /\.(js|html|less|css)$/,
             threshold: 10240,
             minRatio: 0.8
         }),
 
-        new UglifyJsPlugin({
-            parallel: true,
+        new AddAssetHtmlPlugin({
+            filepath: utils.resolve('dist/*.dll.js'),
+        }),
+
+        new ParallelUglifyPlugin({
+            workerCount: 6,
             cache: '.cache/',
-            sourceMap: true,
-            uglifyOptions: {
+            sourceMap: false,
+            uglifyJS: {
                 compress: {
                     warnings: false,
-                    /* eslint-disable */
+                    /* eslint-disable camelcase */
                     drop_debugger: true,
                     drop_console: true
                 },
                 mangle: true
             }
         }),
-
+        
+        new webpack.optimize.ModuleConcatenationPlugin(),
         new WebpackMd5Hash()
     ]
 });

@@ -1,13 +1,15 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
+const HappyPack = require('happypack');   
 
+const getHappyPackConfig = require('./happypack');
 const utils = require('./utils');
 const baseWebpackConfig = require('./webpack.base.config');
 const config = require('../config');
 
 const env = process.env.NODE_ENV || 'development';
-const url = `http://localhost:${config[env].port}`;
+const url = `http://${config[env].clientIp}:${config[env].port}`;
 
 module.exports = merge(baseWebpackConfig, {
     entry: {
@@ -20,13 +22,8 @@ module.exports = merge(baseWebpackConfig, {
     module: {
         rules: [
             {
-                test: /\.vue$/,
-                type: 'javascript/auto',
-                exclude: utils.getExcludAndInclude().exclude,
-                {{#fmcomponents}}
-                include: utils.getExcludAndInclude().include,
-                {{/fmcomponents}}
-                use: ['vue-loader']
+                test: /\.(less|css)$/,
+                use: ['happypack/loader?id=css']
             }
         ]
     },
@@ -42,12 +39,12 @@ module.exports = merge(baseWebpackConfig, {
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NamedModulesPlugin(),
 
-        new webpack.DllReferencePlugin({
-            context: __dirname,
-            // 引入 dll 生成的 manifest 文件
-            manifest: utils.resolve('dist/vendor-manifest.json')
-        }),
+        new HappyPack(getHappyPackConfig({
+            id: 'css',
+            loaders: utils.extractCSS()
+        })),
 
+        new webpack.NoEmitOnErrorsPlugin(),
         new OpenBrowserPlugin({ url: url })
     ],
     // see https://webpack.github.io/docs/webpack-dev-server.html

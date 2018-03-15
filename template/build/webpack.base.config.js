@@ -3,7 +3,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MxWebpackContentReplacePlugin = require('mx-webpack-content-replace-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const HappyPack = require('happypack');   
 
+const getHappyPackConfig = require('./happypack');
 const config = require('../config');
 const utils = require('./utils');
 
@@ -20,35 +22,30 @@ console.log('\n---------base------:\n', base);
 console.log('\n---------api------:\n', api, '\n');
 
 module.exports = {
-    mode: env,
     context: utils.resolve('src'),
     module: {
         noParse: [/static|assets/],
         rules: [
             {
                 test: /\.js$/,
-                type: 'javascript/auto',
                 exclude: utils.getExcludAndInclude().exclude,
                 {{#fmcomponents}}
                 include: utils.getExcludAndInclude().include,
                 {{/fmcomponents}}
-                use: ['babel-loader']
+                loader: 'happypack/loader?id=js'
             },
             {
-                test: /\.less$/,
-                type: 'javascript/auto',
-                use: utils.extractCSS({
-                    lang: 'less'
-                })
-            },
-            {
-                test: /\.css$/,
-                type: 'javascript/auto',
-                use: utils.extractCSS()
+                test: /\.vue$/,
+                exclude: utils.getExcludAndInclude().exclude,
+                {{#fmcomponents}}
+                include: utils.getExcludAndInclude().include,
+                {{/fmcomponents}}
+                use: [{
+                    loader: 'happypack/loader?id=vue'
+                }]
             },
             {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                type: 'javascript/auto',
                 use: [{
                     loader: 'url-loader',
                     options: {
@@ -59,7 +56,6 @@ module.exports = {
             },
             {
                 test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                type: 'javascript/auto',
                 use: [{
                     loader: 'url-loader',
                     options: {
@@ -89,6 +85,10 @@ module.exports = {
         hints: false
     },
 
+    stats: {
+        children: false
+    },
+
     plugins: [
         new webpack.DefinePlugin({
             ENV: JSON.stringify(env),
@@ -96,6 +96,27 @@ module.exports = {
             API: JSON.stringify(api),
             BASE: JSON.stringify(base)
         }),
+
+        new webpack.DllReferencePlugin({
+            context: __dirname,
+            // 引入 dll 生成的 manifest 文件
+            manifest: utils.resolve('dist/vendor-manifest.json')
+        }),
+
+        new HappyPack(getHappyPackConfig({
+            id: 'js',
+            loaders: [{
+                path: 'babel-loader',
+                query: {
+                    cacheDirectory: true
+                }
+            }] 
+        })),
+
+        new HappyPack(getHappyPackConfig({
+            id: 'vue',
+            loaders: ['vue-loader']
+        })),
 
         // copy assets
         new CopyWebpackPlugin([
