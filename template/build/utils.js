@@ -23,7 +23,7 @@ function extractCSS (opts) {
     const cssLoader = {
         [loaderKey]: 'css-loader',
         [optionsKey]: {
-            minimize: env === 'development',
+            minimize: env !== 'development',
             sourceMap: env === 'development'
         }
     };

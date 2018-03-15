@@ -1,6 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
+const HappyPack = require('happypack');   
 
+const getHappyPackConfig = require('./build/happypack');
 const pkg = require('./package.json');
 let dependencies = Object.keys(pkg['dependencies']);
 
@@ -8,13 +10,25 @@ dependencies = dependencies.map(item => {
     if (item === 'vue') {
         return 'vue/dist/vue.esm.js';
     }
+    if (item === 'normalize.css' || item === 'fmcomponents') {
+        return 0;
+    }
     return item;
-}).filter(item => item !== 'normalize.css');
+}).filter(item => !!item);
 
 const dllConfig = {
     context: process.cwd(),
     entry: {
         vendor: dependencies
+    },
+    devtool: 'source-map',
+    module: {
+        rules: [
+            {
+                test: /\.js/,
+                loader: 'happypack/loader?id=js'
+            }
+        ]
     },
     output: {
         path: path.join(__dirname, 'dist'),
@@ -27,6 +41,22 @@ const dllConfig = {
             path: path.join(__dirname, 'dist', '[name]-manifest.json'),
             // 和 output.library 一样即可
             name: '[name]_library'
+        }),
+
+        new HappyPack(getHappyPackConfig({
+            id: 'js',
+            loaders: [{
+                path: 'babel-loader',
+                query: {
+                    cacheDirectory: true
+                }
+            }] 
+        })),
+
+        new webpack.optimize.UglifyJsPlugin({
+            cache: true,
+            parallel: true,
+            sourceMap: true
         })
     ]
 };

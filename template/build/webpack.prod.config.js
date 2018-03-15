@@ -4,9 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 const CompressionPlugin = require('compression-webpack-plugin');
-const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 const HappyPack = require('happypack');   
-const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 
 const getHappyPackConfig = require('./happypack');
 const utils = require('./utils');
@@ -14,6 +12,7 @@ const baseWebpackConfig = require('./webpack.base.config');
 const config = require('../config');
 
 const env = process.env.NODE_ENV || 'development';
+const manifest = require('../dist/vendor-manifest.json');
 
 module.exports = merge(baseWebpackConfig, {
     entry: {
@@ -56,14 +55,14 @@ module.exports = merge(baseWebpackConfig, {
             }
         }),
 
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     name: 'vendor',
-        //     minChunks: ({ resource }) => (
-        //         resource &&
-        //         resource.indexOf('node_modules') >= 0 &&
-        //         resource.match(/\.js$/)
-        //     )
-        // }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: ['manifest'], // ['vender', 'commons']
+            // minChunks: ({ resource }) => (
+            //     resource &&
+            //     resource.indexOf('node_modules') >= 0 &&
+            //     resource.match(/\.js$/)
+            // )
+        }),
 
         // gzip
         new CompressionPlugin({
@@ -74,23 +73,10 @@ module.exports = merge(baseWebpackConfig, {
             minRatio: 0.8
         }),
 
-        new AddAssetHtmlPlugin({
-            filepath: utils.resolve('dist/*.dll.js'),
-        }),
-
-        new ParallelUglifyPlugin({
-            workerCount: 6,
-            cache: '.cache/',
-            sourceMap: false,
-            uglifyJS: {
-                compress: {
-                    warnings: false,
-                    /* eslint-disable camelcase */
-                    drop_debugger: true,
-                    drop_console: true
-                },
-                mangle: true
-            }
+        new webpack.optimize.UglifyJsPlugin({
+            cache: true,
+            parallel: true,
+            sourceMap: false
         }),
         
         new webpack.optimize.ModuleConcatenationPlugin(),

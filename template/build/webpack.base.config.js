@@ -4,6 +4,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MxWebpackContentReplacePlugin = require('mx-webpack-content-replace-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const HappyPack = require('happypack');   
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 
 const getHappyPackConfig = require('./happypack');
 const config = require('../config');
@@ -102,6 +103,10 @@ module.exports = {
             // 引入 dll 生成的 manifest 文件
             manifest: utils.resolve('dist/vendor-manifest.json')
         }),
+
+        // new AddAssetHtmlPlugin({
+        //     filepath: utils.resolve('dist/*.dll.js')
+        // }),
 
         new HappyPack(getHappyPackConfig({
             id: 'js',
