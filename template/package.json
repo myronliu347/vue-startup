@@ -7,10 +7,11 @@
   "scripts": {
     "prepush": "npm run ilint -q",
     "dll": "npx webpack --config webpack.dll.config.js",
-    "dev": "npx rimraf dist && npm run dll && npx cross-env NODE_ENV=development node ./build/dev-server.js",
-    "master": "npx rimraf dist && npx cross-env NODE_ENV=master npx webpack --config ./build/webpack.prod.config.js --hide-modules",
-    "alibeta": "npx rimraf dist && npx cross-env NODE_ENV=alibeta npx webpack --config ./build/webpack.prod.config.js --hide-modules", 
-    "production": "npx rimraf dist && npx cross-env NODE_ENV=production npx webpack --config ./build/webpack.prod.config.js --hide-modules",
+    "postinstall": "npm -s run dll",
+    "dev": "npx cross-env NODE_ENV=development node ./build/dev-server.js",
+    "master": "npx rimraf dist && npm run dll && npx cross-env NODE_ENV=master npx webpack --config ./build/webpack.prod.config.js --hide-modules",
+    "alibeta": "npx rimraf dist && npm run dll && npx cross-env NODE_ENV=alibeta npx webpack --config ./build/webpack.prod.config.js --hide-modules", 
+    "production": "npx rimraf dist && npm run dll && npx cross-env NODE_ENV=production npx webpack --config ./build/webpack.prod.config.js --hide-modules",
     "ilint": "npx eslint src/**/*.js src/**/*.vue",
     "fix": "npx eslint --fix src/**/*.js src/**/*.vue",
     "commitmsg": "npx commitlint -e"
