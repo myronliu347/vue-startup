@@ -2,7 +2,7 @@
 
 import awaitTo from 'async-await-error-handling';
 
-import api from '../../network/api';
+import api from '../../network';
 import * as CONSTANT from '../mutation-types';
 
 const state = {

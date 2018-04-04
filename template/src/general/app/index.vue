@@ -41,46 +41,4 @@
         }
     };
     {{/if_eq}}
-    {{#if_eq state 'revue'}}
-    import { mergeActions, mergeProps } from 'revuejs';
-
-    export default{
-        data () {
-            return {
-                title: 'vuejs 2 + webpack 3'
-            };
-        },
-
-        computed: {
-            ...mergeProps(['time.curTime'])
-        },
-
-        methods: {
-            ...mergeActions(['time.changeTime'])
-        },
-
-        components: {
-            Hello
-        }
-    };
-    {{/if_eq}}
-    {{#if_eq state 'mobx'}}
-    import timeModel from '@src/mobx/time';
-
-    export default{
-        data () {
-            return {
-                title: 'vuejs 2 + webpack 3'
-            };
-        },
-
-        fromMobx: {
-            timeModel
-        },
-
-        components: {
-            Hello
-        }
-    };
-    {{/if_eq}}
 </script>
