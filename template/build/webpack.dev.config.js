@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const HappyPack = require('happypack');   
 
 const getHappyPackConfig = require('./happypack');
@@ -45,6 +46,7 @@ module.exports = merge(baseWebpackConfig, {
         })),
 
         new webpack.NoEmitOnErrorsPlugin(),
+        new FriendlyErrorsPlugin(),
         new OpenBrowserPlugin({ url: url })
     ],
     // see https://webpack.github.io/docs/webpack-dev-server.html
