@@ -5,7 +5,9 @@ const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 const CompressionPlugin = require('compression-webpack-plugin');
 const HappyPack = require('happypack');   
-
+{{#skeleton}}
+const SkeletonWebpackPlugin = require('vue-skeleton-webpack-plugin');
+{{/skeleton}}
 const getHappyPackConfig = require('./happypack');
 const utils = require('./utils');
 const baseWebpackConfig = require('./webpack.base.config');
@@ -16,7 +18,7 @@ const manifest = require('../dist/vendor-manifest.json');
 
 module.exports = merge(baseWebpackConfig, {
     entry: {
-        app: utils.resolve('src/page/index.js')
+        app: utils.resolve('src/main.js')
     },
     module: {
         rules: [
@@ -78,7 +80,12 @@ module.exports = merge(baseWebpackConfig, {
             parallel: true,
             sourceMap: false
         }),
-        
+        {{#skeleton}}
+        new SkeletonWebpackPlugin({
+            webpackConfig: require('./webpack.skeleton.config'),
+            quiet: true
+        }),
+        {{/skeleton}}
         new webpack.optimize.ModuleConcatenationPlugin(),
         new WebpackMd5Hash()
     ]
