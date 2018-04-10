@@ -16,7 +16,7 @@ if (env !== 'development') {
 }
 
 {{#if_eq state 'vuex'}}
-import store from '../store/index';
+import store from './store/index';
 {{/if_eq}}
 
 // dynamic import for on-demand loaded chunk
